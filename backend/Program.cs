@@ -2,6 +2,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using PhonebookApplication.Endpoints;
 using PhonebookApplication.Repositories;
 using PhonebookApplication.Services;
 
@@ -50,8 +51,7 @@ namespace PhonebookApplication
                     };
                 });
 
-            // Add services to the container.
-            builder.Services.AddControllers();
+            builder.Services.AddAuthorization();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -81,6 +81,8 @@ namespace PhonebookApplication
                         Array.Empty<string>()
                     }
                 });
+
+                options.DocumentFilter<RemoveLoginSecurityFilter>();
             });
 
             var app = builder.Build();
@@ -109,7 +111,8 @@ namespace PhonebookApplication
             app.UseAuthorization();
 
             // API endpoints
-            app.MapControllers();
+            app.MapAuthEndpoints();
+            app.MapContactEndpoints();
 
             await app.RunAsync();
         }

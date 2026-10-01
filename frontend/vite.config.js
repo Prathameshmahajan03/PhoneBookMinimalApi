@@ -8,7 +8,7 @@ export default defineConfig({
     allowedHosts: ['visiting-morally-composure.ngrok-free.dev'],
     proxy: {
       '/api': {
-        target: 'https://localhost:7233',
+        target: 'http://localhost:5127',
         changeOrigin: true,
         secure: false
       }
